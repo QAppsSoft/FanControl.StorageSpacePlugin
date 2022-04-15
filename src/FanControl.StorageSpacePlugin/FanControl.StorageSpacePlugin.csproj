@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net48</TargetFramework>
+	  <LangVersion>8</LangVersion>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Reference Include="FanControl.Plugins">
+		  <HintPath>..\..\..\FanControl.HardDiskSentinel\Middleware\FanControl\FanControl.Plugins.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+  </ItemGroup>
+
+</Project>
