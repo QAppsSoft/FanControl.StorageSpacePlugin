@@ -26,13 +26,15 @@ namespace FanControl.StorageSpacePlugin
         {
             _powerShellRunner = new PowerShellRunner();
 
+            var refreshRate = Config.RefreshRate();
+
             var autoUpdater = Observable.FromEvent<bool>(
                     eh => _autoUpdaterObserver += eh,
 #pragma warning disable CS8601
                     eh => _autoUpdaterObserver -= eh)
 #pragma warning restore CS8601
                 .StartWith(false)
-                .Select(value => value ? Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(30)) : Observable.Empty<long>())
+                .Select(value => value ? Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(refreshRate)) : Observable.Empty<long>())
                 .Switch()
                 .Select(_ => _disks)
                 .Select(GetTemperatures)
