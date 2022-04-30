@@ -6,7 +6,7 @@ This pluggin attempt to fix an [issue](https://github.com/Rem0o/FanControl.Relea
 ### What this plugin do:
 - Get a list a of drives included in any Storage Pool.
 - Get drive actual temperature.
-- To avoid the high memory an cpu usage from PowerShell, the update rate is limited to 30s (Maybe in the future can be adjusted from `FanControl` app)
+- To avoid the high memory an cpu usage from PowerShell, the update rate is limited to 30s ~~(Maybe in the future can be adjusted from `FanControl` app)~~. Can be adjusted from a setting file.
 
 ### Todo:
 - [X] Support temperature reading for HDD
