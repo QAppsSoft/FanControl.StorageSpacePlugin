@@ -12,10 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <Reference Include="FanControl.Plugins">
-		  <HintPath>..\..\..\FanControl.HardDiskSentinel\Middleware\FanControl\FanControl.Plugins.dll</HintPath>
-		  <Private>False</Private>
-	  </Reference>
+    <Reference Include="FanControl.Plugins">
+      <HintPath>..\..\Middleware\FanControl\FanControl.Plugins.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
