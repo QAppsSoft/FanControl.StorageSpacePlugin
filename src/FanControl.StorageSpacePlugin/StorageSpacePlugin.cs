@@ -9,6 +9,7 @@ namespace FanControl.StorageSpacePlugin
 
         public StorageSpacePlugin()
         {
+            Config.ReadConfig();
             _disksInfoProvider = new DisksInfoProvider();
             _disksInfoProvider.Initialize();
         }

@@ -22,7 +22,7 @@ namespace FanControl.StorageSpacePlugin
             get
             {
                 var temperature = _disk.Temperature;
-                return temperature == 0 ? Config.Defaults.FallbackTemperature : temperature;
+                return temperature == 0 ? Config.FallbackTemperature : temperature;
             }
         }
 

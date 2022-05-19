@@ -26,7 +26,7 @@ namespace FanControl.StorageSpacePlugin
         {
             _powerShellRunner = new PowerShellRunner();
 
-            var refreshRate = Config.RefreshRate();
+            var refreshRate = Config.RefreshRate;
 
             var autoUpdater = Observable.FromEvent<bool>(
                     eh => _autoUpdaterObserver += eh,
@@ -44,7 +44,7 @@ namespace FanControl.StorageSpacePlugin
                     {
                         if (_disks.TryGetValue(serial, out var disk))
                         {
-                            disk.Temperature = temperature == 0 ? Config.Defaults.FallbackTemperature : temperature;
+                            disk.Temperature = temperature == 0 ? Config.FallbackTemperature : temperature;
                         }
                     }
                 });
@@ -143,7 +143,7 @@ namespace FanControl.StorageSpacePlugin
                 }
             }
 
-            return 36;
+            return Config.Defaults.FallbackTemperatureValue;
         }
     }
 }

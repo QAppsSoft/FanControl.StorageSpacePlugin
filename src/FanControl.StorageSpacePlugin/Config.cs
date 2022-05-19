@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
 
@@ -6,7 +7,26 @@ namespace FanControl.StorageSpacePlugin
 {
     internal static class Config
     {
-        private static int _defaultRefreshRate = 30;
+        private static readonly Dictionary<string, Action<string>> ConfigActions = new Dictionary<string, Action<string>>();
+
+        static Config()
+        {
+            ConfigActions.Add(
+                ConfigValues.RefreshRateKey,
+                value =>
+                {
+                    var result = int.TryParse(value, out var refreshRate);
+                    _refreshRate = result ? refreshRate : Defaults.RefreshRateValue;
+                });
+
+            ConfigActions.Add(
+                ConfigValues.FallbackTemperatureKey,
+                value =>
+                {
+                    var result = float.TryParse(value, out var fallbackTemperature);
+                    _fallbackTemperature = result ? fallbackTemperature : Defaults.FallbackTemperatureValue;
+                });
+        }
 
         public static string ApplicationPath()
         {
@@ -24,13 +44,13 @@ namespace FanControl.StorageSpacePlugin
             return Path.Combine(PluginsPath(), "FanControl.StorageSpacePlugin.ini");
         }
 
-        public static int RefreshRate()
+        public static void ReadConfig()
         {
-            string configText;
+            string[] lines;
 
             try
             {
-                configText = File.ReadAllText(ConfigPath());
+                lines = File.ReadAllLines(ConfigPath());
             }
             catch (Exception exception)
             {
@@ -41,22 +61,44 @@ namespace FanControl.StorageSpacePlugin
                     case PathTooLongException _:
                     case IOException _:
                     case UnauthorizedAccessException _:
-                        return _defaultRefreshRate;
+                        return;
                     default:
                         throw; // Let FanControl handle and log the Exception
                 }
             }
 
-            var configsArray = configText.Split('=');
+            foreach (var line in lines)
+            {
+                var configsArray = line.Split('=');
 
-            var result = int.TryParse(configsArray[1], out var refreshRate);
-
-            return result ? refreshRate : _defaultRefreshRate;
+                if (configsArray.Length != 2)
+                {
+                    continue;
+                }
+                
+                if (ConfigActions.TryGetValue(configsArray[0], out var configUpdate))
+                {
+                    configUpdate.Invoke(configsArray[1]);
+                }
+            }
         }
+
+        private static int _refreshRate = Defaults.RefreshRateValue;
+        public static int RefreshRate => _refreshRate;
+
+        private static float _fallbackTemperature = Defaults.FallbackTemperatureValue;
+        public static float FallbackTemperature => _fallbackTemperature;
 
         public static class Defaults
         {
-            public static float FallbackTemperature => 36; // Default reported temperature in case of wrong PowerShell value
+            public static int RefreshRateValue => 30;
+            public static float FallbackTemperatureValue => 36; // Default reported temperature in case of wrong PowerShell value
+        }
+
+        public static class ConfigValues
+        {
+            public static string RefreshRateKey => "RefreshRate";
+            public static string FallbackTemperatureKey => "FallbackTemperature";
         }
     }
 }
