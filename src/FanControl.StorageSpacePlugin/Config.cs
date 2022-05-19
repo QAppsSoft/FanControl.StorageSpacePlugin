@@ -53,5 +53,10 @@ namespace FanControl.StorageSpacePlugin
 
             return result ? refreshRate : _defaultRefreshRate;
         }
+
+        public static class Defaults
+        {
+            public static float FallbackTemperature => 36; // Default reported temperature in case of wrong PowerShell value
+        }
     }
 }

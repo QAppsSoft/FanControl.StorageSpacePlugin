@@ -38,13 +38,13 @@ namespace FanControl.StorageSpacePlugin
                 .Switch()
                 .Select(_ => _disks)
                 .Select(GetTemperatures)
-                .Subscribe(temperatures =>
+                .Subscribe(tuples =>
                 {
-                    foreach (var (serial, temperature) in temperatures)
+                    foreach (var (serial, temperature) in tuples)
                     {
                         if (_disks.TryGetValue(serial, out var disk))
                         {
-                            disk.Temperature = temperature;
+                            disk.Temperature = temperature == 0 ? Config.Defaults.FallbackTemperature : temperature;
                         }
                     }
                 });

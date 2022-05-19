@@ -17,7 +17,14 @@ namespace FanControl.StorageSpacePlugin
 
         public string Name { get; }
 
-        public float? Value => _disk.Temperature;
+        public float? Value
+        {
+            get
+            {
+                var temperature = _disk.Temperature;
+                return temperature == 0 ? Config.Defaults.FallbackTemperature : temperature;
+            }
+        }
 
         public void Update() { }
 
