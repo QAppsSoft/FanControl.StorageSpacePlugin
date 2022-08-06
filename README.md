@@ -10,7 +10,7 @@ This pluggin attempt to fix an [issue](https://github.com/Rem0o/FanControl.Relea
 
 ### Todo:
 - [X] Support temperature reading for HDD
-- [ ] Check if this pluging work with any SSD used by an Storage Space.
+- [X] Check if this pluging work with any SSD used by an Storage Space.
 - [X] Setting to control the refresh rate instead of use a hardcoded 30s.
 
 ### See also
